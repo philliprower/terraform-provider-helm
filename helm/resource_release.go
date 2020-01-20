@@ -382,7 +382,7 @@ func resourceReleaseRead(d *schema.ResourceData, meta interface{}) error {
 }
 
 func setIDAndMetadataFromRelease(d *schema.ResourceData, r *release.Release) error {
-	d.SetId(r.Name)
+	d.SetId(buildId(r))
 	d.Set("version", r.Chart.Metadata.Version)
 	d.Set("namespace", r.Namespace)
 	d.Set("status", r.Info.Status.Code.String())
@@ -827,4 +827,8 @@ func checkDependencies(ch *chart.Chart, reqs *chartutil.Requirements) error {
 		return fmt.Errorf("found in requirements.yaml, but missing in charts/ directory: %s", strings.Join(missing, ", "))
 	}
 	return nil
+}
+
+func buildId(r *release.Release) string {
+	return r.Namespace + "/" + r.Name
 }
