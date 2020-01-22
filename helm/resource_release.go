@@ -830,5 +830,7 @@ func checkDependencies(ch *chart.Chart, reqs *chartutil.Requirements) error {
 }
 
 func buildId(r *release.Release) string {
-	return r.Namespace + "/" + r.Name
+	value := r.Namespace + "/" + r.Name
+	log.Printf("Resource use id %s", value)
+	return value
 }
